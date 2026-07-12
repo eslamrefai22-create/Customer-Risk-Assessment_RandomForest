@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retention Ledger — Customer Risk Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="desk">
+
+    <header class="letterhead">
+      <div class="letterhead__mark">RL</div>
+      <div class="letterhead__text">
+        <p class="letterhead__eyebrow">Retention Ledger</p>
+        <h1 class="letterhead__title">Customer Risk Assessment</h1>
+      </div>
+      <div class="letterhead__ref">
+        <span>File opened</span>
+        <span id="fileDate">—</span>
+      </div>
+    </header>
+
+    <main class="dossier">
+
+      <form id="assessmentForm" class="dossier__form" novalidate>
+
+        <fieldset class="ledger-section">
+          <legend>Account standing</legend>
+
+          <div class="field">
+            <label for="CreditScore">Credit score</label>
+            <input type="number" id="CreditScore" name="CreditScore" min="300" max="900" step="1" value="650" required>
+            <span class="field__hint">300–900</span>
+          </div>
+
+          <div class="field">
+            <label for="Balance">Account balance</label>
+            <div class="field__prefixed">
+              <span>€</span>
+              <input type="number" id="Balance" name="Balance" min="0" step="0.01" value="75000" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="EstimatedSalary">Estimated salary</label>
+            <div class="field__prefixed">
+              <span>€</span>
+              <input type="number" id="EstimatedSalary" name="EstimatedSalary" min="0" step="0.01" value="100000" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="NumOfProducts">Products held</label>
+            <input type="number" id="NumOfProducts" name="NumOfProducts" min="1" max="4" step="1" value="2" required>
+            <span class="field__hint">1–4</span>
+          </div>
+        </fieldset>
+
+        <fieldset class="ledger-section">
+          <legend>Customer profile</legend>
+
+          <div class="field">
+            <label for="Geography">Country</label>
+            <select id="Geography" name="Geography" required>
+              {% for opt in geography_options %}
+                <option value="{{ opt }}">{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="Gender">Gender</label>
+            <select id="Gender" name="Gender" required>
+              {% for opt in gender_options %}
+                <option value="{{ opt }}">{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="Age">Age</label>
+            <input type="number" id="Age" name="Age" min="18" max="100" step="1" value="35" required>
+          </div>
+
+          <div class="field">
+            <label for="Tenure">Years with the bank</label>
+            <input type="number" id="Tenure" name="Tenure" min="0" max="15" step="1" value="5" required>
+          </div>
+        </fieldset>
+
+        <fieldset class="ledger-section ledger-section--toggles">
+          <legend>Standing marks</legend>
+
+          <label class="toggle">
+            <input type="checkbox" id="HasCrCard" name="HasCrCard" checked>
+            <span class="toggle__box" aria-hidden="true"></span>
+            <span class="toggle__label">Holds a credit card</span>
+          </label>
+
+          <label class="toggle">
+            <input type="checkbox" id="IsActiveMember" name="IsActiveMember" checked>
+            <span class="toggle__box" aria-hidden="true"></span>
+            <span class="toggle__label">Active member</span>
+          </label>
+        </fieldset>
+
+        <div class="dossier__actions">
+          <button type="submit" class="stamp-button" id="submitBtn">
+            <span>Assess risk</span>
+          </button>
+          <p class="dossier__error" id="formError" role="alert"></p>
+        </div>
+
+      </form>
+
+      <aside class="verdict" id="verdict" aria-live="polite">
+        <div class="verdict__empty" id="verdictEmpty">
+          <div class="verdict__ring"></div>
+          <p>Fill in the customer's details and assess the risk of them leaving the bank.</p>
+        </div>
+
+        <div class="verdict__result" id="verdictResult" hidden>
+          <div class="stamp" id="stamp">
+            <span class="stamp__pct" id="stampPct">—</span>
+            <span class="stamp__word" id="stampWord">—</span>
+          </div>
+          <p class="verdict__risk" id="verdictRisk">—</p>
+          <dl class="verdict__breakdown">
+            <div>
+              <dt>Likely to stay</dt>
+              <dd id="stayPct">—</dd>
+            </div>
+            <div>
+              <dt>Likely to churn</dt>
+              <dd id="churnPct">—</dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="colophon">
+      <p>Prediction generated by an in-house artificial neural network. For decision support only — not a substitute for judgement.</p>
+    </footer>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

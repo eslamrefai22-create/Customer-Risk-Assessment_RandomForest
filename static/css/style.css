@@ -1,0 +1,465 @@
+/* ==========================================================================
+   Retention Ledger — design tokens
+   A bank "customer dossier" metaphor: warm ledger paper, brass ink,
+   deep forest ink-green text, and a rubber-stamp verdict.
+   ========================================================================== */
+:root {
+  --desk: #232922;
+  --desk-shadow: #171b15;
+
+  --paper: #F6F2E7;
+  --paper-alt: #EEE7D4;
+  --rule: #CFC4A3;
+
+  --ink: #1E2B22;
+  --ink-soft: #566254;
+  --ink-faint: #8A9285;
+
+  --brass: #A9793F;
+  --brass-dark: #7F5A2C;
+
+  --risk-low: #2E6B4F;
+  --risk-low-bg: #E7F0E9;
+  --risk-med: #A97A1E;
+  --risk-med-bg: #F5EBD6;
+  --risk-high: #A5402F;
+  --risk-high-bg: #F5E4E0;
+
+  --radius-s: 4px;
+  --radius-m: 10px;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #2c332a 0%, var(--desk) 55%, var(--desk-shadow) 100%);
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding: clamp(20px, 4vw, 56px) 16px 40px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.desk {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Letterhead                                                              */
+/* ---------------------------------------------------------------------- */
+.letterhead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--paper);
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+  padding: 22px 28px;
+  border-bottom: 2px solid var(--rule);
+}
+
+.letterhead__mark {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border: 2px solid var(--brass);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--brass-dark);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.letterhead__text { flex: 1; }
+
+.letterhead__eyebrow {
+  margin: 0 0 2px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+}
+
+.letterhead__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  color: var(--ink);
+}
+
+.letterhead__ref {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  gap: 2px;
+  text-align: right;
+}
+
+.letterhead__ref span:last-child {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Dossier body                                                            */
+/* ---------------------------------------------------------------------- */
+.dossier {
+  background: var(--paper);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 0;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 760px) {
+  .dossier { grid-template-columns: 1fr; }
+}
+
+.dossier__form {
+  padding: 28px;
+  border-right: 1px dashed var(--rule);
+}
+
+@media (max-width: 760px) {
+  .dossier__form { border-right: none; border-bottom: 1px dashed var(--rule); }
+}
+
+.ledger-section {
+  border: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+
+.ledger-section--toggles {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 480px) {
+  .ledger-section { grid-template-columns: 1fr; }
+}
+
+.ledger-section legend {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  padding: 0 0 8px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.field label {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--paper-alt);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-s);
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field select { font-family: var(--font-body); }
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(169, 121, 63, 0.18);
+}
+
+.field__hint {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+}
+
+.field__prefixed {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+
+.field__prefixed span {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background: var(--rule);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.field__prefixed input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  min-width: 0;
+}
+
+.field__prefixed input:focus { box-shadow: none; }
+.field__prefixed:focus-within {
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(169, 121, 63, 0.18);
+}
+
+/* Toggles ----------------------------------------------------------------*/
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.toggle__box {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--brass);
+  border-radius: 3px;
+  flex: none;
+  position: relative;
+  background: var(--paper-alt);
+}
+
+.toggle input:checked + .toggle__box {
+  background: var(--brass);
+}
+
+.toggle input:checked + .toggle__box::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--paper);
+  border-width: 0 2px 2px 0;
+  transform: rotate(40deg);
+}
+
+.toggle input:focus-visible + .toggle__box {
+  box-shadow: 0 0 0 3px rgba(169, 121, 63, 0.3);
+}
+
+.toggle__label {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* Actions ------------------------------------------------------------------*/
+.dossier__actions {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.stamp-button {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.stamp-button:hover { background: var(--brass-dark); }
+.stamp-button:active { transform: scale(0.97); }
+.stamp-button:disabled { opacity: 0.6; cursor: progress; }
+
+.dossier__error {
+  margin: 0;
+  color: var(--risk-high);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Verdict panel                                                           */
+/* ---------------------------------------------------------------------- */
+.verdict {
+  background: var(--paper-alt);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 420px;
+}
+
+.verdict__empty {
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.verdict__ring {
+  width: 90px;
+  height: 90px;
+  border: 2px dashed var(--rule);
+  border-radius: 50%;
+}
+
+.verdict__result { display: none; flex-direction: column; align-items: center; gap: 18px; }
+.verdict__result.is-visible { display: flex; }
+
+.stamp {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transform: rotate(-7deg) scale(0.6);
+  opacity: 0;
+  animation: stamp-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+  position: relative;
+}
+
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.stamp--low   { color: var(--risk-low); }
+.stamp--med   { color: var(--risk-med); }
+.stamp--high  { color: var(--risk-high); }
+
+.stamp__pct {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.stamp__word {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@keyframes stamp-in {
+  0%   { transform: rotate(-14deg) scale(0.5); opacity: 0; }
+  60%  { transform: rotate(-6deg) scale(1.08); opacity: 1; }
+  100% { transform: rotate(-7deg) scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp { animation: none; transform: rotate(-7deg) scale(1); opacity: 1; }
+}
+
+.verdict__risk {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.verdict__breakdown {
+  display: flex;
+  gap: 24px;
+  margin: 0;
+}
+
+.verdict__breakdown dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+
+.verdict__breakdown dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Colophon                                                                */
+/* ---------------------------------------------------------------------- */
+.colophon {
+  background: var(--paper);
+  border-radius: 0 0 var(--radius-m) var(--radius-m);
+  padding: 14px 28px 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.colophon p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
